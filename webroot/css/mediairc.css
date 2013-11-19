@@ -1,5 +1,7 @@
 html,
 body {
+  user-select: none;
+  overflow: hidden;
   height: 100%;
   /* The html and body elements cannot have any padding or margin. */
 }
@@ -30,8 +32,25 @@ body {
 	padding: 7px 15px;
 }
 
+#header {
+	width: 500px;
+	margin: 0 auto;
+}
+
+#content {
+	background: rgba(255,255,255,0.8);
+	border-radius: 5px;
+	padding: 10px;
+}
+
 #canvas {
-	border: 1px solid black;
+	position: absolute;
+	
+	left: 0;
+	top: 0;
+	bottom: 60px;
+
+	z-index: -1;
 }
 
 

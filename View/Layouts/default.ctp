@@ -30,7 +30,7 @@
 		<div id="content">
 			<?php echo $this->fetch('content'); ?>
 		</div>
-		<canvas id="canvas" width="640" height="480" tabindex='1'></canvas>
+		<div id="canvas"></div>
 	</div> <!-- /container -->
 </div> <!-- /wrap -->
 
@@ -44,7 +44,8 @@
 <?php echo $this->Html->script('jquery.history'); ?>
 <?php echo $this->Html->script('bootstrap.min'); ?>
 <?php echo $this->Html->script('mediairc'); ?>
-<?php echo $this->Html->script('cannon'); ?>
-<?php echo $this->Html->script('mediairc.cannon'); ?>
+<?php echo $this->Html->script('protoclass'); ?>
+<?php echo $this->Html->script('box2d'); ?>
+<?php echo $this->Html->script('mediairc.box2d'); ?>
 </body>
 </html>

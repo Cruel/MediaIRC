@@ -96,4 +96,20 @@ $(function(){
 	$(document).on("click", ".testy", function(){
 		alert('test');
 	});
+	$(document).on("click", "#gravup", function(){
+//		world.gravity.set(0,-gravity,0);
+		gravity = { x: 0, y: -1 };
+	});
+	$(document).on("click", "#gravdown", function(){
+//		world.gravity.set(0,gravity,0);
+		gravity = { x: 0, y: 1 };
+	});
+	$(document).on("click", "#gravleft", function(){
+//		world.gravity.set(-gravity,0,0);
+		gravity = { x: -1, y: 0 };
+	});
+	$(document).on("click", "#gravright", function(){
+//		world.gravity.set(gravity,0,0);
+		gravity = { x: 1, y: 0 };
+	});
 });
