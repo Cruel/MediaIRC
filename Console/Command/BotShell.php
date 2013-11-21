@@ -1,5 +1,7 @@
 <?php
 
+App::uses('Delegator', 'MediaLog');
+
 class BotShell extends AppShell {
 	
 	public $uses = array('Bot');
@@ -52,8 +54,16 @@ class BotShell extends AppShell {
 				case "KICK":
 					if ($message['params']['user'] == "JimBot"){
 						$chan = $message['params']['channel'];
-						$write->ircJoin($chan);
-						$write->ircPrivmsg($chan, $message['nick'].", why do you hate me?");
+						$cachekey = $connection->getServerHostname() . $chan;
+						if (Cache::read($cachekey, 'kickcounter')){
+							$write->ircJoin($chan);
+							$write->ircPrivmsg($chan, "Fine, you win.");
+							$write->ircPart($chan);
+						} else {
+							$write->ircJoin($chan);
+							$write->ircPrivmsg($chan, $message['nick'].", why do you hate me? :<");
+							Cache::write($cachekey, true, 'kickcounter');
+						}
 					}
 					break;
 				case "ERROR":
@@ -64,6 +74,7 @@ class BotShell extends AppShell {
 					break;
 				default:
 					$logger->debug(var_export($message, true));
+					$logger->debug(var_export($connection, true));
 			}
 			// Auto-join
 			if (isset($message['code']) && in_array($message['code'], array('RPL_ENDOFMOTD', 'ERR_NOMOTD'))) {
