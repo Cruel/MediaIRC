@@ -1,4 +1,5 @@
 <ul class="footer-links nav nav-pills">
+  <li><?php echo $this->Html->link(__("Home"), array('controller' => 'pages', 'action' => 'display', 'home')) ?></li>
   <li><?php echo $this->Html->link(__("About"), array('controller' => 'pages', 'action' => 'display', 'about')) ?></li>
   <li><?php echo $this->Html->link(__("Commands"), array('controller' => 'pages', 'action' => 'display', 'commands')) ?></li>
   <li><?php echo $this->Html->link(__("Terms of Use"), array('controller' => 'pages', 'action' => 'display', 'terms')) ?></li>
