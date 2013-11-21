@@ -25,6 +25,8 @@ function loadHistoryJS(){
 			    title = $this.attr('title')||null;
 			// Continue as normal for cmd clicks etc
 			if ( event.which == 2 || event.metaKey ) { return true; }
+			// Change ball gravity (random)
+			gravity = { x: Math.floor(Math.random()*3)-1, y: Math.floor(Math.random()*3)-1};
 			// Ajaxify this link
 			History.pushState(null,title,url);
 			event.preventDefault();
@@ -39,8 +41,7 @@ function loadHistoryJS(){
 	$(window).bind('statechange',function(){
 		// Prepare Variables
 		var State = History.getState(),
-		    url = State.url,
-		    relativeUrl = url.replace(rootUrl,'');
+		    url = State.url;
 		
 		// Set Loading
 		$body.addClass('loading');
@@ -54,13 +55,10 @@ function loadHistoryJS(){
 		$.ajax({
 			url: url,
 			success: function(data, textStatus, jqXHR){
-				var $dataContent = $(data).find('#content'),
-				    $menuChildren;
+				var $dataContent = $(data).find('#content');
 				
 				// Update the menu
-				$menuChildren = $('.nav > li').removeClass('active').has('a[href^="'+relativeUrl+'"],a[href^="/'+relativeUrl+'"],a[href^="'+url+'"]');
-				if ( $menuChildren.length === 1 ) { $menuChildren.addClass('active'); }
-				
+				setNavActive();
 				// Update the content
 				$content.stop(true,false);
 				$content.html($dataContent.html()).css('opacity',0).ajaxify().animate({opacity:1},500); /* you could fade in here if you'd like */
@@ -84,10 +82,15 @@ function loadHistoryJS(){
 	}); // end onStateChange
 }
 
-$(function(){
-	// Make appropriate nav links active
+//Make appropriate nav links active
+function setNavActive(){
+	$('.nav > li').removeClass('active');
 	$(".nav a[href='"+document.location.pathname+"']").parent().addClass('active');
 	$(".nav a[href='"+document.location.href+"']").parent().addClass('active');
+}
+
+$(function(){
+	setNavActive();
 	// Init tooltips
 	$("*[data-toggle='tooltip']").tooltip();
 	

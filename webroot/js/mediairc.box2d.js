@@ -28,7 +28,7 @@ var destroyMode = false;
 var isMouseDown = false;
 var mouseJoint;
 var mouse = { x: 0, y: 0 };
-var gravity = { x: 0, y: 1 };
+var gravity = { x: 0, y: 0 };
 
 var PI2 = Math.PI * 2;
 
@@ -40,24 +40,21 @@ init();
 play();
 
 function init() {
-	
 	$header = $('#header');
-
-	canvas = document.getElementById( 'canvas' );
+	canvas = $('#canvas')[0];
 
 	document.onmousedown = onDocumentMouseDown;
 	document.onmouseup = onDocumentMouseUp;
 	document.onmousemove = onDocumentMouseMove;
 	document.ondblclick = onDocumentDoubleClick;
 
-//	document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-//	document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-//	document.addEventListener( 'touchend', onDocumentTouchEnd, false );
+	document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+	document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+	document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 
-//	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
+	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
 
 	// init box2d
-
 	worldAABB = new b2AABB();
 	worldAABB.minVertex.Set( -200, -200 );
 	worldAABB.maxVertex.Set( window.innerWidth + 200, window.innerHeight + 200 );
@@ -70,18 +67,13 @@ function init() {
 
 
 function play() {
-
 	setInterval( loop, 1000 / 40 );
 }
 
 function reset() {
-
 	var i;
-
 	if ( bodies ) {
-
 		for ( i = 0; i < bodies.length; i++ ) {
-
 			var body = bodies[ i ]
 			canvas.removeChild( body.GetUserData().element );
 			world.DestroyBody( body );
@@ -109,46 +101,34 @@ function reset() {
 //
 
 function onDocumentMouseDown() {
-
 	isMouseDown = true;
-	return false;
+//	return false;
 }
 
 function onDocumentMouseUp() {
-
 	isMouseDown = false;
-	return false;
+//	return false;
 }
 
 function onDocumentMouseMove( event ) {
-
 	mouse.x = event.clientX;
 	mouse.y = event.clientY;
 }
 
 function onDocumentDoubleClick() {
-
 	reset();
 }
 
 function onDocumentTouchStart( event ) {
-
 	if( event.touches.length == 1 ) {
-
 		event.preventDefault();
-
 		// Faking double click for touch devices
-
 		var now = new Date().getTime();
-
 		if ( now - timeOfLastTouch  < 250 ) {
-
 			reset();
 			return;
 		}
-
 		timeOfLastTouch = now;
-
 		mouse.x = event.touches[ 0 ].pageX;
 		mouse.y = event.touches[ 0 ].pageY;
 		isMouseDown = true;
@@ -156,38 +136,25 @@ function onDocumentTouchStart( event ) {
 }
 
 function onDocumentTouchMove( event ) {
-
 	if ( event.touches.length == 1 ) {
-
 		event.preventDefault();
-
 		mouse.x = event.touches[ 0 ].pageX;
 		mouse.y = event.touches[ 0 ].pageY;
-
 	}
-
 }
 
 function onDocumentTouchEnd( event ) {
-
 	if ( event.touches.length == 0 ) {
-
 		event.preventDefault();
 		isMouseDown = false;
-
 	}
-
 }
 
 function onWindowDeviceOrientation( event ) {
-
 	if ( event.beta ) {
-
 		gravity.x = Math.sin( event.gamma * Math.PI / 180 );
 		gravity.y = Math.sin( ( Math.PI / 4 ) + event.beta * Math.PI / 180 );
-
 	}
-
 }
 
 //
@@ -301,14 +268,10 @@ function createBall( x, y ) {
 	bodies.push( world.CreateBody(b2body) );
 }
 
-//
-
 function loop() {
 
 	if (getBrowserDimensions()) {
-
 		setWalls();
-
 	}
 
 	delta[0] += (0 - delta[0]) * .5;
@@ -320,8 +283,7 @@ function loop() {
 	mouseDrag();
 	world.Step(timeStep, iterations);
 
-	for (i = 0; i < bodies.length; i++) {
-
+	for (var i = 0; i < bodies.length; i++) {
 		var body = bodies[i];
 		var element = elements[i];
 
@@ -329,39 +291,29 @@ function loop() {
 		element.style.top = (body.m_position0.y - (element.height >> 1)) + 'px';
 
 		if (element.tagName == 'DIV') {
-
 			var style = 'rotate(' + (body.m_rotation0 * 57.2957795) + 'deg) translateZ(0)';
 			text.style.WebkitTransform = style;
 			text.style.MozTransform = style;
 			text.style.OTransform = style;
 			text.style.msTransform = style;
 			text.style.transform = style;
-
 		}
-
 	}
-
 }
 
 
 // .. BOX2D UTILS
 
 function createBox(world, x, y, width, height, fixed) {
-
 	if (typeof(fixed) == 'undefined') {
-
 		fixed = true;
-
 	}
 
 	var boxSd = new b2BoxDef();
 
 	if (!fixed) {
-
 		boxSd.density = 1.0;
-
 	}
-
 	boxSd.extents.Set(width, height);
 
 	var boxBd = new b2BodyDef();
@@ -369,22 +321,15 @@ function createBox(world, x, y, width, height, fixed) {
 	boxBd.position.Set(x,y);
 
 	return world.CreateBody(boxBd);
-
 }
 
-function mouseDrag()
-{
+function mouseDrag() {
 	// mouse press
 	if (createMode) {
-
-		createBall( mouse.x, mouse.y );
-
+//		createBall( mouse.x, mouse.y );
 	} else if (isMouseDown && !mouseJoint) {
-
 		var body = getBodyAtMouse();
-
 		if (body) {
-
 			var md = new b2MouseJointDef();
 			md.body1 = world.m_groundBody;
 			md.body2 = body;
@@ -393,40 +338,30 @@ function mouseDrag()
 			// md.timeStep = timeStep;
 			mouseJoint = world.CreateJoint(md);
 			body.WakeUp();
-
 		} else {
-
 			createMode = true;
-
 		}
-
 	}
 
 	// mouse release
 	if (!isMouseDown) {
-
 		createMode = false;
 		destroyMode = false;
 
 		if (mouseJoint) {
-
 			world.DestroyJoint(mouseJoint);
 			mouseJoint = null;
-
 		}
-
 	}
 
 	// mouse move
 	if (mouseJoint) {
-
 		var p2 = new b2Vec2(mouse.x, mouse.y);
 		mouseJoint.SetTarget(p2);
 	}
 }
 
 function getBodyAtMouse() {
-
 	// Make a small box.
 	var mousePVec = new b2Vec2();
 	mousePVec.Set(mouse.x, mouse.y);
@@ -442,88 +377,62 @@ function getBodyAtMouse() {
 	var body = null;
 
 	for (var i = 0; i < count; ++i) {
-
 		if (shapes[i].m_body.IsStatic() == false) {
-
 			if ( shapes[i].TestPoint(mousePVec) ) {
-
 				body = shapes[i].m_body;
 				break;
-
 			}
-
 		}
-
 	}
-
 	return body;
-
 }
 
 function setWalls() {
-
 	if (wallsSetted) {
-
 		world.DestroyBody(walls[0]);
 		world.DestroyBody(walls[1]);
 		world.DestroyBody(walls[2]);
 		world.DestroyBody(walls[3]);
 		world.DestroyBody(walls[4]);
-
 		walls[0] = null; 
 		walls[1] = null;
 		walls[2] = null;
 		walls[3] = null;
 		walls[4] = null;
 	}
-$header = $('#header');
+
 	walls[0] = createBox(world, stage[2] / 2, - wall_thickness, stage[2], wall_thickness);
 	walls[1] = createBox(world, stage[2] / 2, stage[3] + wall_thickness, stage[2], wall_thickness);
 	walls[2] = createBox(world, - wall_thickness, stage[3] / 2, wall_thickness, stage[3]);
 	walls[3] = createBox(world, stage[2] + wall_thickness, stage[3] / 2, wall_thickness, stage[3]);
-	walls[4] = createBox(world, $header.offset().left, 0, $header.width(), $header.offset().top + $header.height() + 5);
-//	walls[4] = createBox(world, 0, 0, 200, 200);
+	walls[4] = createBox(world, stage[2] / 2, 5, $header.width() / 2, $header.offset().top + $header.height());
 
 	wallsSetted = true;
-
 }
 
 // BROWSER DIMENSIONS
 
 function getBrowserDimensions() {
-
 	var changed = false;
 
 	if (stage[0] != window.screenX) {
-
 //		delta[0] = (window.screenX - stage[0]) * 50;
 		stage[0] = window.screenX;
 		changed = true;
-
 	}
-
 	if (stage[1] != window.screenY) {
-
 //		delta[1] = (window.screenY - stage[1]) * 50;
 		stage[1] = window.screenY;
 		changed = true;
-
 	}
-
 	if (stage[2] != window.innerWidth) {
-
 		stage[2] = window.innerWidth;
 		changed = true;
-
 	}
-
 	if (stage[3] != window.innerHeight - 60) {
-
 		stage[3] = window.innerHeight - 60;
 		changed = true;
-
 	}
 
 	return changed;
-
 }

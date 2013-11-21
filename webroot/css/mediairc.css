@@ -1,9 +1,15 @@
 html,
 body {
   user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
   overflow: hidden;
   height: 100%;
   /* The html and body elements cannot have any padding or margin. */
+}
+
+input {
+	user-selectk: text;
 }
 
 /* Wrapper for page content to push down footer */
@@ -41,6 +47,7 @@ body {
 	background: rgba(255,255,255,0.8);
 	border-radius: 5px;
 	padding: 10px;
+	width: 500px;
 }
 
 #canvas {
