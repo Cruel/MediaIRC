@@ -7,15 +7,19 @@ class MediaLog {
 	public static function loadId($id){
 		$model = ClassRegistry::init('Link');
 		if ($model->exists($id)){
-			$link = $model->find('first', array(
-					'conditions' => array('Link.id' => $id)
-			));
-			$class = $link['Link']['type'];
-			App::uses($class, 'MediaLog');
-			$obj = $class::loadModel($link);
-			if ($obj)
-				return $obj;
+			return self::loadModel($model->find('first', array(
+				'conditions' => array('Link.id' => $id)
+			)));
 		}
+		return false;
+	}
+	
+	public static function loadModel($Link){
+		$class = $Link['Link']['type'];
+		App::uses($class, 'MediaLog');
+		$obj = $class::loadModel($Link);
+		if ($obj)
+			return $obj;
 		return false;
 	}
 	
