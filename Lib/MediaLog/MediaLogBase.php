@@ -9,14 +9,16 @@ abstract class MediaLogBase {
 	          $image = null,
 	          $data = array();
 
-	protected function __construct($url){
+	protected function __construct($url = null){
 		$this->Link = ClassRegistry::init('Link');
 		$this->url = $url;
 	}
 	
-	public static function loadId($id){
+	// Called from MediaLog::loadId() after fetching model from id
+	public static function loadModel($model){
 		$classname = get_called_class();
-		$class = new $classname($url);
+		$class = new $classname();
+		$class->data = json_decode($model['Link']['data'], true);
 		return $class;
 	}
 	
@@ -70,5 +72,7 @@ abstract class MediaLogBase {
 	public function __isset($name){ return isset($this->data[$name]); }
 		
 	public function __unset($name){ unset($this->data[$name]); }
+	
+	public function getHtml(){}
 	
 }

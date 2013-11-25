@@ -1,8 +1,6 @@
 <?php
 
 App::uses('MediaLogBase', 'MediaLog');
-App::uses('Bot', 'Model');
-App::uses('Link', 'Model');
 
 class MediaLog {
 	
@@ -11,9 +9,18 @@ class MediaLog {
 	}
 	
 	public static function loadId($id){
-		$obj = new MediaLog();
-		
-		return $obj;
+		$model = ClassRegistry::init('Link');
+		if ($model->exists($id)){
+			$link = $model->find('first', array(
+					'conditions' => array('Link.id' => $id)
+			));
+			$class = $link['Link']['type'];
+			App::uses($class, 'MediaLog');
+			$obj = $class::loadModel($link);
+			if ($obj)
+				return $obj;
+		}
+		return false;
 	}
 	
 	public static function loadUrl($url){
