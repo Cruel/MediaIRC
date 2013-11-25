@@ -4,10 +4,6 @@ App::uses('MediaLogBase', 'MediaLog');
 
 class MediaLog {
 	
-	private function __construct(){
-		//
-	}
-	
 	public static function loadId($id){
 		$model = ClassRegistry::init('Link');
 		if ($model->exists($id)){

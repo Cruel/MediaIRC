@@ -38,6 +38,22 @@ abstract class MediaLogBase {
 		return true;
 	}
 	
+	public function save($bot_id = null, $context = null){
+		$record = array(
+				'Link' => array(
+						'bot_id'  => $bot_id,
+						'url'     => $this->url,
+						'image'   => $this->image,
+						'type'    => get_called_class(),
+						'data'    => json_encode($this->data),
+						'context' => $context,
+						'date'    => null
+				)
+		);
+		$this->Link->create();
+		$this->Link->save($record);
+	}
+	
 	public function __set($name, $value) {
 		$this->data[$name] = $value;
 	}
@@ -51,22 +67,6 @@ abstract class MediaLogBase {
 			'Undefined property via __get(): '.$name.' in '.$trace[0]['file'].' on line '.$trace[0]['line'],
 			E_USER_NOTICE);
 		return null;
-	}
-	
-	public function save($bot_id = null, $context = null){
-		$record = array(
-			'Link' => array(
-				'bot_id'  => $bot_id,
-				'url'     => $this->url,
-				'image'   => $this->image,
-				'type'    => get_called_class(),
-				'data'    => json_encode($this->data),
-				'context' => $context,
-				'date'    => null
-			)
-		);
-		$this->Link->create();
-		$this->Link->save($record);
 	}
 
 	public function __isset($name){ return isset($this->data[$name]); }
