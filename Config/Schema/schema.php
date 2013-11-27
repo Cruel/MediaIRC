@@ -12,6 +12,7 @@ class MediaIRCSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'server' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'channel' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'ssl' => array('type' => 'boolean', 'null' => false, 'default' => null),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'date' => array('type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP'),
 		'indexes' => array(
