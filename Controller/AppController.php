@@ -33,4 +33,11 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	
+	public function beforeFilter(){
+		parent::beforeFilter();
+		if (isset($this->request->params['page']))
+			$this->request->params['named']['page'] = $this->request->params['page'];
+	}
+	
 }

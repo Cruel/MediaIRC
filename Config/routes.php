@@ -30,7 +30,9 @@
 	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 	
 	Router::connect('/make', array('controller' => 'bots', 'action' => 'add'));
-	Router::connect('/list', array('controller' => 'bots', 'action' => 'index'));
+	Router::connect('/bots', array('controller' => 'bots', 'action' => 'index'));
+	
+	Router::connect('/bots/:page', array('controller' => 'bots', 'action' => 'index'));
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */
