@@ -1,6 +1,7 @@
 <?php
 
 App::uses('MediaLog', 'MediaLog');
+App::uses('PingIRC', 'Lib');
 
 class BotShell extends AppShell {
 	
@@ -23,16 +24,10 @@ class BotShell extends AppShell {
 	
 	private $context_lines = 3; // Lines before and after posted links
 	
-	public function test(){
-// 		$url ="http://global.fncstatic.com/static/managed/img/Leisure/2009/jcvd-volvo-660.jpg";
-// 		$url = "http://fddgfsdgfsdgdgf.com/";
-		$url = "http://youtu.be/E4aqo6iIAiA?t=3s";
-		$bot_id = 99;
-		$log = MediaLog::loadUrl($url);
-		if ($log){
-			$log->save($bot_id, "context");
-		}
-		var_dump(get_class($log));
+	public function ping(){
+		$port = 6697;
+		$host = 'chat.freenode.net';
+		var_dump(PingIRC::ping($host, $port, '#chan', true));
 	}
 	
 	private function processContext(&$chan_array, $message){
@@ -51,6 +46,12 @@ class BotShell extends AppShell {
 		}
 	}
 	
+	// Used to resolve nickname conflicts
+	private function incrementNick($nick){
+		// TODO: proper incrementing
+		return $nick."1";
+	}
+	
 	public function start() {
 		$this->out('Starting up MediaIRC bots...');
 
@@ -62,7 +63,7 @@ class BotShell extends AppShell {
 			$bots = $this->Bot->find('all');
 			foreach ($bots as $bot){
 				$server = $bot['Bot']['server'];
-				$chan = $bot['Bot']['channel'];
+				$chan = strtolower($bot['Bot']['channel']);
 				if ($bot['Bot']['active']) {
 					if (isset($this->servers[$server])){
 						if (!isset($this->servers[$server]['channels'][$chan])){
@@ -83,6 +84,8 @@ class BotShell extends AppShell {
 						$connection->setNickname('MediaIRC');
 						$connection->setUsername('MediaIRC');
 						$connection->setRealname('MediaIRC');
+						if ($bot['Bot']['ssl'])
+							$connection->setOption('transport', 'ssl');
 						$client->addConnection($connection);
 						$this->servers[$server] = array(
 							'channels' => array(
@@ -109,13 +112,9 @@ class BotShell extends AppShell {
 			}
 		});
 		
-		$client->addPeriodicTimer(30, function() use ($client) {
-			// TODO: Update cache with current connections for site stats page?
-		});
-		
 		$client->on('irc.received', function($message, $write, $connection, $logger) use ($client) {
 			
-// 			$logger->debug(var_export($message, true));
+			$logger->debug(var_export($message, true));
 			$server = $connection->getServerHostname() . ":" . $connection->getServerPort();
 			
 			switch ($message['command']) {
@@ -123,8 +122,8 @@ class BotShell extends AppShell {
 					$write->ircPong($message['params']['server1']);
 					break;
 				case "PRIVMSG":
-					$receiver = $message['params']['receivers'];
-					if ($receiver == "MediaIRC"){
+					$receiver = strtolower($message['params']['receivers']);
+					if ($receiver == strtolower($connection->getNickname())){
 						// TODO: PM Commands
 					} else {
 						// Check for URLs
@@ -143,19 +142,23 @@ class BotShell extends AppShell {
 										'log' => $log
 									);
 								$bot_id = $this->servers[$server]['channels'][$receiver]['id'];
-								$write->ircPrivmsg($receiver, $bot_id ." ". get_class($log)." - ".$url);
+								$logger->debug($receiver.' '.$bot_id." ". get_class($log)." - ".$url);
 							}
 						}
 					}
 					break;
 				case "KICK":
-					if ($message['params']['user'] == "MediaIRC"){
+					if ($message['params']['user'] == strtolower($connection->getNickname())){
+						// Deactivate bot after being kicked twice
 						$chan = $message['params']['channel'];
+						$bot_id = $this->servers[$server]['channels'][$chan]['id'];
 						$cachekey = $connection->getServerHostname() . $chan;
 						if (Cache::read($cachekey, 'kickcounter')){
 							$write->ircJoin($chan);
 							$write->ircPrivmsg($chan, "Fine, you win.");
 							$write->ircPart($chan);
+							$this->Bot->id = $bot_id;
+							$this->Bot->saveField('active', false);
 						} else {
 							$write->ircJoin($chan);
 							$write->ircPrivmsg($chan, $message['nick'].", why do you hate me? :<");
@@ -164,6 +167,7 @@ class BotShell extends AppShell {
 					}
 					break;
 				case "ERROR":
+					// TODO: have attempt counter to eventually give up
 					$logger->debug('Connection to ' . $connection->getServerHostname() . ' lost, attempting to reconnect');
 					$client->addConnection($connection);
 					break;
@@ -172,13 +176,24 @@ class BotShell extends AppShell {
 				default:
 // 					$logger->debug(var_export($message, true));
 			}
-			// Auto-join
-			if (isset($message['code']) && in_array($message['code'], array('RPL_ENDOFMOTD', 'ERR_NOMOTD'))) {
-				foreach ($this->servers[$server]['channels'] as $chan => $data)
-					$write->ircJoin($chan);
-				$this->servers[$server]['connection'] = $connection;
-				$this->servers[$server]['write'] = $write;
+
+			if (isset($message['code'])){
+				// Join channels
+				// TODO: Check for ERR_NOSUCHCHANNEL or something (for when a channel is removed/unregistered)
+				if (in_array($message['code'], array('RPL_ENDOFMOTD', 'ERR_NOMOTD'))) {
+					foreach ($this->servers[$server]['channels'] as $chan => $data)
+						$write->ircJoin($chan);
+					$this->servers[$server]['connection'] = $connection;
+					$this->servers[$server]['write'] = $write;
+				}
+				
+				if ($message['code'] == 'ERR_NICKNAMEINUSE'){ // Maybe ERR_NICKCOLLISION too?
+					$this->servers[$server]['connection'] = null;
+					$connection->setNickname($this->incrementNick($connection->getNickname()));
+					$write->ircQuit(); // Will automatically try to reconnect
+				}
 			}
+
 		});
 		
 		$client->on('connect.error', function($message, $connection, $logger) use ($client) {
