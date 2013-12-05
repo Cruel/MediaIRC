@@ -26,9 +26,10 @@
 <div id="wrap">
 	<div class="container">
 		<?php echo $this->element("header") ?>
-		<?php echo $this->Session->flash(); ?>
 		<div id="content">
+			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>
+			<div class="clearfix"></div>
 		</div>
 		<div id="canvas"></div>
 	</div> <!-- /container -->
