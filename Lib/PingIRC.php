@@ -7,6 +7,9 @@ class PingIRC {
 	public static function ping($host, $port, $chan = null, $ssl = false){
 		
 		$return = true;
+		
+		if (!defined('STDERR'))
+			define('STDERR', fopen('php://stderr', 'w'));
 
 		$fp = @fsockopen($host, $port, $errno, $errstr, self::TIMEOUT);
 		if (!$fp) {
