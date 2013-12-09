@@ -129,6 +129,7 @@ class BotsController extends AppController {
 			$json[] = array(
 				'host' => $bot['Bot']['host'],
 				'channel' => $bot['Bot']['channel'],
+				'url' => Router::url(array('action'=>'view', $bot['Bot']['id']))
 			);
 		}
 		$this->set('json', $json);

@@ -100,7 +100,8 @@ function onDocumentMouseMove( event ) {
 function onDocumentDoubleClick() {
 	var body = getBodyAtMouse();
 	if (body) {
-		console.log(body.m_userData);
+		var $div = $(body.m_userData.element);
+		History.pushState(null, null, $div.data('url'));
 	}
 //	reset();
 }
@@ -150,14 +151,14 @@ function fetchBalls(){
 			matched = false;
 			for (x in bodies){
 				var $div = $(bodies[x].m_userData.element);
-				if ($div.data('channel') == data[i].channel && $div.data('host') == data[i].host){
+				if ($div.data('url') == data[i].url){
 					matched = true;
 					break;
 				}
 			}
 			if (!matched) {
 				var ball = createBall(data[i].channel, 150);
-				$(ball).data('host',data[i].host).data('channel',data[i].channel);
+				$(ball).data('host',data[i].host).data('channel',data[i].channel).data('url',data[i].url);
 			}
 		}
 		console.log(data);
