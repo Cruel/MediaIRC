@@ -9,8 +9,8 @@
 		<tbody>
 		<?php foreach ($bots as $bot): ?>
 			<tr>
-				<td><?php echo $this->Html->link($bot['Bot']['channel'], array('action' => 'view', $bot['Bot']['id'])); ?>&nbsp;</td>
-				<td><?php echo h($bot['Bot']['server']); ?>&nbsp;</td>
+				<td><?php echo $this->Html->link($bot['Bot']['channel'], array('action' => 'view', $bot['Bot']['id'])); ?></td>
+				<td><?php echo h($bot['Bot']['host']).":".$bot['Bot']['port']; ?></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

@@ -1,4 +1,4 @@
-<h2><?php echo h($bot['Bot']['channel']); ?> <small><?php echo h($bot['Bot']['server']); ?></small></h2>
+<h2><?php echo h($bot['Bot']['channel']); ?> <small><?php echo h($bot['Bot']['host']); ?></small></h2>
 
 
 <?php

@@ -57,12 +57,12 @@ class BotShell extends AppShell {
 
 		$client = new \Phergie\Irc\Client\React\Client();
 		
-		$client->addPeriodicTimer(5, function() use ($client) {
+		$client->addPeriodicTimer(10, function() use ($client) {
 			$this->out('TIMER!');
 			// Fetch active bots with SQL, loop through to make connect array
 			$bots = $this->Bot->find('all');
 			foreach ($bots as $bot){
-				$server = $bot['Bot']['server'];
+				$server = $bot['Bot']['host'].":".$bot['Bot']['port'];
 				$chan = strtolower($bot['Bot']['channel']);
 				if ($bot['Bot']['active']) {
 					if (isset($this->servers[$server])){
@@ -77,10 +77,9 @@ class BotShell extends AppShell {
 								);
 						}
 					} else {
-						list($host, $port) = explode(':', $server);
 						$connection = new \Phergie\Irc\Connection();
 						$connection->setServerHostname($host);
-						$connection->setServerPort($port);
+						$connection->setServerPort($bot['Bot']['port']);
 						$connection->setNickname('MediaIRC');
 						$connection->setUsername('MediaIRC');
 						$connection->setRealname('MediaIRC');

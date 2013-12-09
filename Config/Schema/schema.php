@@ -10,7 +10,8 @@ class MediaIRCSchema extends CakeSchema {
 
 	public $bots = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'server' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'host' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'port' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'channel' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'ssl' => array('type' => 'boolean', 'null' => false, 'default' => null),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),

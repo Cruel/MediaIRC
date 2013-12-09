@@ -8,7 +8,8 @@
 			'div'=>'col-lg-8 col-lg-offset-2 form-group'
 		),
 	));
-	echo $this->Form->input('server', array('placeholder' => 'Server (e.g. chat.freenode.net:6667)'));
+	echo $this->Form->input('host', array('placeholder' => 'Hostname (e.g. chat.freenode.net)'));
+	echo $this->Form->input('port', array('placeholder' => 'Port (e.g. 6667)'));
 	echo $this->Form->input('channel', array('placeholder' => 'Channel (e.g. #chat)'));
 	echo $this->Form->input('ssl', array('type' => 'checkbox', 'label' =>  __('SSL'), 'class'=>'', 'div'=>'col-lg-4 col-lg-offset-3 checkbox'));
 	

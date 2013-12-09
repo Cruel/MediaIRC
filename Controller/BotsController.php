@@ -68,7 +68,15 @@ class BotsController extends AppController {
 			$json = array();
 			
 			$bot = $this->Bot->find('first', array('conditions'=>array(
-					'server' => $data['Bot']['server'],
+					'host' => $data['Bot']['host']
+			)));
+			if ($bot){
+				$data['Bot']['port'] = $bot['Bot']['port'];
+				$data['Bot']['ssl'] = $bot['Bot']['ssl'];
+			}
+			
+			$bot = $this->Bot->find('first', array('conditions'=>array(
+					'host' => $data['Bot']['host'],
 					'channel' => $data['Bot']['channel'],
 					'ssl' => $data['Bot']['ssl']
 			)));
@@ -88,11 +96,7 @@ class BotsController extends AppController {
 					}
 				}
 			} else {
-				list($host, $port) = explode(':', $data['Bot']['server']);
-				if (is_numeric($port))
-					$ping_ret = PingIRC::ping($host, $port, $data['Bot']['channel'], $data['Bot']['ssl']);
-				else
-					$ping_ret = "Need port value for server (e.g. chat.freenode.net:6667)";
+				$ping_ret = PingIRC::ping($data['Bot']['host'], $data['Bot']['port'], $data['Bot']['channel'], $data['Bot']['ssl']);
 				$json['success'] = $ping_ret === true;
 				$json['message'] = $ping_ret;
 			}
@@ -102,7 +106,7 @@ class BotsController extends AppController {
 				$this->Bot->create();
 				if ($this->Bot->save($data)) {
 					$json['message'] = sprintf($launch_msgs[rand(0,count($launch_msgs)-1)],
-						$host, $port, $data['Bot']['channel'], Router::url(array('action'=>'view', $this->Bot->getInsertID())));
+						$data['Bot']['host'], $data['Bot']['port'], $data['Bot']['channel'], Router::url(array('action'=>'view', $this->Bot->getInsertID())));
 				} else {
 					$json['message'] = __('The bot could not be saved. Please, try again.');
 					$json['success'] = false;
@@ -114,8 +118,8 @@ class BotsController extends AppController {
 	}
 
 	
-/* Give JSON of active bots for gravity balls! */
-	public function active(){
+/* Give JSON of bots for gravity balls! */
+	public function balls(){
 		Configure::write('debug', 0);
 		$this->layout = null;
 		$this->Bot->recursive = -1;
@@ -123,7 +127,7 @@ class BotsController extends AppController {
 		$json = array();
 		foreach ($bots as $bot){
 			$json[] = array(
-				'server' => $bot['Bot']['server'],
+				'host' => $bot['Bot']['host'],
 				'channel' => $bot['Bot']['channel'],
 			);
 		}

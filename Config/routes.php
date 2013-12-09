@@ -30,7 +30,7 @@
 	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 	
 	Router::connect('/make', array('controller' => 'bots', 'action' => 'add'));
-	Router::connect('/bots', array('controller' => 'bots', 'action' => 'index'));
+	Router::connect('/balls', array('controller' => 'bots', 'action' => 'balls'));
 	
 	Router::connect('/bots/:page', array('controller' => 'bots', 'action' => 'index'));
 /**

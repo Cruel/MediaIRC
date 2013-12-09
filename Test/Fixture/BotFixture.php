@@ -12,8 +12,10 @@ class BotFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'server' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'host' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'port' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'channel' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'ssl' => array('type' => 'boolean', 'null' => false, 'default' => null),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'date' => array('type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP'),
 		'indexes' => array(
@@ -30,10 +32,12 @@ class BotFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'server' => 'Lorem ipsum dolor sit amet',
+			'host' => 'Lorem ipsum dolor sit amet',
+			'port' => 1,
 			'channel' => 'Lorem ipsum dolor sit amet',
+			'ssl' => 1,
 			'active' => 1,
-			'date' => 1384912661
+			'date' => 1386298583
 		),
 	);
 
