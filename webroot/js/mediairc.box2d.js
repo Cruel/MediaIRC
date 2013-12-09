@@ -168,24 +168,17 @@ function fetchBalls(){
 //
 
 function createWelcomeBall() {
-
 	var size = 250;
-	
 	var element = createBall("", size);
+	var canvas = element.children[0];
 
-	var text = document.createElement( 'div' );
-	text.onSelectStart = null;
-	text.innerHTML = '<span style="color:' + 'white' + ';font-size:40px;">Hello!</span><br /><br /><span style="font-size:15px;"><strong>This is how it works:</strong><br /><br />1. Drag a ball.<br />2.&nbsp;Click&nbsp;on&nbsp;the&nbsp;background.<br />3. Shake your browser.<br />4. Double click.<br />5. Play!</span>';
-	text.style.color = 'white';
-	text.style.position = 'absolute';
-	text.style.left = '0px';
-	text.style.top = '0px';
-	text.style.fontFamily = 'Georgia';
-	text.style.textAlign = 'center';
-	element.appendChild(text);
-
-	text.style.left = ((250 - text.clientWidth) / 2) +'px';
-	text.style.top = ((250 - text.clientHeight) / 2) +'px';		
+	with (canvas.getContext("2d")){
+	    textAlign = "center";
+	    font = '35px Arial';
+	    fillText("Want Balls?", 125, 75);
+	    font = '18px Arial';
+	    fillText("Send a bot to your channel", 125, 110);
+	}
 }
 
 function stringToColor(s) {
