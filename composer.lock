@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "51ebc32389551912c4d07f9165b61637",
+    "hash": "d7cb452e0e9ed203d8297d9774862de6",
     "packages": [
         {
             "name": "evenement/evenement",
@@ -114,10 +114,10 @@
         },
         {
             "name": "pear-pear.cakephp.org/CakePHP",
-            "version": "2.4.2",
+            "version": "2.4.3",
             "dist": {
                 "type": "file",
-                "url": "http://pear.cakephp.org/get/CakePHP-2.4.2.tgz",
+                "url": "http://pear.cakephp.org/get/CakePHP-2.4.3.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -125,7 +125,7 @@
                 "php": ">=5.2.8.0"
             },
             "replace": {
-                "pear-cakephp/cakephp": "== 2.4.2.0"
+                "pear-cakephp/cakephp": "== 2.4.3.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -285,19 +285,24 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+                "reference": "5144da9525d24346bf009ff28f10cbaa1f0f166e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/5144da9525d24346bf009ff28f10cbaa1f0f166e",
+                "reference": "5144da9525d24346bf009ff28f10cbaa1f0f166e",
                 "shasum": ""
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Psr\\Log\\": ""
@@ -319,7 +324,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21 11:40:51"
+            "time": "2013-12-05 15:25:07"
         },
         {
             "name": "react/event-loop",
@@ -417,12 +422,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "a6d601c1f9f5e380aeef1587f702d41577e15327"
+                "reference": "1fef158801a65ed7f1fe722cbaeac07cda6afbc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/a6d601c1f9f5e380aeef1587f702d41577e15327",
-                "reference": "a6d601c1f9f5e380aeef1587f702d41577e15327",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/1fef158801a65ed7f1fe722cbaeac07cda6afbc6",
+                "reference": "1fef158801a65ed7f1fe722cbaeac07cda6afbc6",
                 "shasum": ""
             },
             "require": {
@@ -458,7 +463,7 @@
                 "debug",
                 "kit"
             ],
-            "time": "2013-11-14 15:32:47"
+            "time": "2013-12-03 18:23:40"
         },
         {
             "name": "composer/installers",
@@ -466,12 +471,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "d792632d27e1980d921cbbba12eab7b888338d4c"
+                "reference": "a4b0baa2929e0238a87cb080c0ee9963c5747fb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/d792632d27e1980d921cbbba12eab7b888338d4c",
-                "reference": "d792632d27e1980d921cbbba12eab7b888338d4c",
+                "url": "https://api.github.com/repos/composer/installers/zipball/a4b0baa2929e0238a87cb080c0ee9963c5747fb1",
+                "reference": "a4b0baa2929e0238a87cb080c0ee9963c5747fb1",
                 "shasum": ""
             },
             "replace": {
@@ -501,7 +506,7 @@
                 {
                     "name": "Kyle Robinson Young",
                     "email": "kyle@dontkry.com",
-                    "homepage": "http://dontkry.com",
+                    "homepage": "https://github.com/shama",
                     "role": "Developer"
                 }
             ],
@@ -532,7 +537,7 @@
                 "wordpress",
                 "zend"
             ],
-            "time": "2013-10-24 16:13:49"
+            "time": "2013-12-07 19:47:46"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -784,12 +789,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "236f65cc97d6beaa8fcb8a27b19bd278f3912677"
+                "reference": "6b77c60ed70c4af6cd17a87b054c86d69a67d740"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/236f65cc97d6beaa8fcb8a27b19bd278f3912677",
-                "reference": "236f65cc97d6beaa8fcb8a27b19bd278f3912677",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6b77c60ed70c4af6cd17a87b054c86d69a67d740",
+                "reference": "6b77c60ed70c4af6cd17a87b054c86d69a67d740",
                 "shasum": ""
             },
             "require": {
@@ -850,7 +855,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2013-11-06 01:58:51"
+            "time": "2013-12-08 12:01:47"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -917,12 +922,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "1f7cabb841e62ec49615bd965ac780fd994b3f64"
+                "reference": "1481f096caead542c2dfadd67d9fd6124d97e273"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/1f7cabb841e62ec49615bd965ac780fd994b3f64",
-                "reference": "1f7cabb841e62ec49615bd965ac780fd994b3f64",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/1481f096caead542c2dfadd67d9fd6124d97e273",
+                "reference": "1481f096caead542c2dfadd67d9fd6124d97e273",
                 "shasum": ""
             },
             "require": {
@@ -931,7 +936,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
@@ -955,7 +960,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2013-10-17 11:48:11"
+            "time": "2013-11-26 16:42:52"
         }
     ],
     "aliases": [
@@ -966,7 +971,7 @@
 
     ],
     "platform": {
-        "php": ">=5.3.0"
+        "php": ">=5.4.0"
     },
     "platform-dev": [
 
