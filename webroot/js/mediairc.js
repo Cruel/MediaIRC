@@ -26,7 +26,7 @@ function loadHistoryJS(){
 			// Continue as normal for cmd clicks etc
 			if ( event.which == 2 || event.metaKey ) { return true; }
 			// Change ball gravity (random)
-			gravity = { x: Math.floor(Math.random()*3)-1, y: Math.floor(Math.random()*3)-1};
+			changeGravity(Math.floor(Math.random()*3)-1, Math.floor(Math.random()*3)-1);
 			// Ajaxify this link
 			History.pushState(null,title,url);
 			event.preventDefault();
@@ -61,7 +61,7 @@ function loadHistoryJS(){
 				setNavActive();
 				// Update the content
 				$content.stop(true,false);
-				$content.html($dataContent.html()).css('opacity',0).ajaxify().animate({opacity:1},500); /* you could fade in here if you'd like */
+				$content.html($dataContent.html()).css('opacity',0).ajaxify().animate({opacity:1},500);
 				
 				// Update the title
 				document.title = $(data).filter('title').text();
@@ -89,6 +89,12 @@ function setNavActive(){
 	$(".nav a[href='"+document.location.href+"']").parent().addClass('active');
 }
 
+function makeAlert(style, message){
+	return $('<div />').addClass('alert alert-dismissable alert-'+style)
+		.html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' + message)
+		.ajaxify();
+}
+
 $(function(){
 	setNavActive();
 	// Init tooltips
@@ -96,23 +102,43 @@ $(function(){
 	
 	loadHistoryJS();
 	
-	$(document).on("click", ".testy", function(){
-		alert('test');
+	// Ajaxify forms
+	var $content = $('#content');
+//	$(document).on("submit", "form", function(){
+//		$content.css('opacity',1).animate({opacity:0},500);
+//		$.ajax({
+//			url     : $(this).attr('action'),
+//			type    : $(this).attr('method'),
+//			data    : $(this).serialize(),
+//			success : function( data ) {
+//				var $dataContent = $(data).find('#content');
+//				$content.stop(true,false);
+//				$content.html($dataContent.html()).css('opacity',0).ajaxify().animate({opacity:1},500);
+//			},
+//			error   : function( xhr, err ) {
+//				alert('Failed to submit form.');     
+//			}
+//		});
+//		return false;
+//	});
+	
+	$(document).on("submit", "#BotAddForm", function(){
+		var $this = $(this),
+		    $btn = $('#btnLaunch');
+		$btn.button('loading');
+		$.post(
+			$this.attr('action'),
+			$this.serialize(),
+			function(data){
+				console.log(data);
+				$btn.button('reset');
+				$content.append(makeAlert((data.success ? 'success' : 'danger'), data.message));
+				if (data.success)
+					fetchBalls();
+			},
+			'json'
+		);
+		return false;
 	});
-	$(document).on("click", "#gravup", function(){
-//		world.gravity.set(0,-gravity,0);
-		gravity = { x: 0, y: -1 };
-	});
-	$(document).on("click", "#gravdown", function(){
-//		world.gravity.set(0,gravity,0);
-		gravity = { x: 0, y: 1 };
-	});
-	$(document).on("click", "#gravleft", function(){
-//		world.gravity.set(-gravity,0,0);
-		gravity = { x: -1, y: 0 };
-	});
-	$(document).on("click", "#gravright", function(){
-//		world.gravity.set(gravity,0,0);
-		gravity = { x: 1, y: 0 };
-	});
+
 });

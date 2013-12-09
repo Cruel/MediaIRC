@@ -1,18 +1,8 @@
-var canvas;
+var bgcanvas;
 
 var delta = [ 0, 0 ];
 var stage = [ window.screenX, window.screenY, window.innerWidth, window.innerHeight - 60 ];
 getBrowserDimensions();
-
-var themes = [ [ "#10222B", "#95AB63", "#BDD684", "#E2F0D6", "#F6FFE0" ],
-		[ "#362C2A", "#732420", "#BF734C", "#FAD9A0", "#736859" ],
-		[ "#0D1114", "#102C2E", "#695F4C", "#EBBC5E", "#FFFBB8" ],
-		[ "#2E2F38", "#FFD63E", "#FFB54B", "#E88638", "#8A221C" ],
-		[ "#121212", "#E6F2DA", "#C9F24B", "#4D7B85", "#23383D" ],
-		[ "#343F40", "#736751", "#F2D7B6", "#BFAC95", "#8C3F3F" ],
-		[ "#000000", "#2D2B2A", "#561812", "#B81111", "#FFFFFF" ],
-		[ "#333B3A", "#B4BD51", "#543B38", "#61594D", "#B8925A" ] ];
-var theme;
 
 var worldAABB, world, iterations = 1, timeStep = 1 / 15;
 
@@ -20,7 +10,7 @@ var walls = [];
 var wall_thickness = 200;
 var wallsSetted = false;
 
-var bodies, elements, text;
+var bodies, elements;
 
 var createMode = false;
 var destroyMode = false;
@@ -36,12 +26,14 @@ var timeOfLastTouch = 0;
 
 var $header;
 
-init();
-play();
+$(function(){
+	init();
+	play();
+});
 
 function init() {
 	$header = $('#header');
-	canvas = $('#canvas')[0];
+	bgcanvas = $('#canvas')[0];
 
 	document.onmousedown = onDocumentMouseDown;
 	document.onmouseup = onDocumentMouseUp;
@@ -75,27 +67,17 @@ function reset() {
 	if ( bodies ) {
 		for ( i = 0; i < bodies.length; i++ ) {
 			var body = bodies[ i ]
-			canvas.removeChild( body.GetUserData().element );
+			bgcanvas.removeChild( body.GetUserData().element );
 			world.DestroyBody( body );
 			body = null;
 		}
 	}
 
-	// color theme
-	theme = themes[ Math.random() * themes.length >> 0 ];
-//	document.body.style[ 'backgroundColor' ] = theme[ 0 ];
-
 	bodies = [];
 	elements = [];
 
-	createInstructions();
-
-	for( i = 0; i < 10; i++ ) {
-
-		createBall();
-
-	}
-
+	createWelcomeBall();
+	fetchBalls();
 }
 
 //
@@ -116,7 +98,11 @@ function onDocumentMouseMove( event ) {
 }
 
 function onDocumentDoubleClick() {
-	reset();
+	var body = getBodyAtMouse();
+	if (body) {
+		console.log(body.m_userData);
+	}
+//	reset();
 }
 
 function onDocumentTouchStart( event ) {
@@ -157,41 +143,40 @@ function onWindowDeviceOrientation( event ) {
 	}
 }
 
+function fetchBalls(){
+	$.get('/balls', null, function(data){
+		var matched;
+		for (i in data){
+			matched = false;
+			for (x in bodies){
+				var $div = $(bodies[x].m_userData.element);
+				if ($div.data('channel') == data[i].channel && $div.data('host') == data[i].host){
+					matched = true;
+					break;
+				}
+			}
+			if (!matched) {
+				var ball = createBall(data[i].channel, 150);
+				$(ball).data('host',data[i].host).data('channel',data[i].channel);
+			}
+		}
+		console.log(data);
+		setTimeout(fetchBalls, 20000);
+	},'json');
+}
+
 //
 
-function createInstructions() {
+function createWelcomeBall() {
 
 	var size = 250;
+	
+	var element = createBall("", size);
 
-	var element = document.createElement( 'div' );
-	element.width = size;
-	element.height = size;	
-	element.style.position = 'absolute';
-	element.style.left = -200 + 'px';
-	element.style.top = -200 + 'px';
-	element.style.cursor = "default";
-
-	canvas.appendChild(element);
-	elements.push( element );
-
-	var circle = document.createElement( 'canvas' );
-	circle.width = size;
-	circle.height = size;
-
-	var graphics = circle.getContext( '2d' );
-
-	graphics.fillStyle = theme[ 3 ];
-	graphics.beginPath();
-	graphics.arc( size * .5, size * .5, size * .5, 0, PI2, true );
-	graphics.closePath();
-	graphics.fill();
-
-	element.appendChild( circle );
-
-	text = document.createElement( 'div' );
+	var text = document.createElement( 'div' );
 	text.onSelectStart = null;
-	text.innerHTML = '<span style="color:' + theme[0] + ';font-size:40px;">Hello!</span><br /><br /><span style="font-size:15px;"><strong>This is how it works:</strong><br /><br />1. Drag a ball.<br />2.&nbsp;Click&nbsp;on&nbsp;the&nbsp;background.<br />3. Shake your browser.<br />4. Double click.<br />5. Play!</span>';
-	text.style.color = theme[1];
+	text.innerHTML = '<span style="color:' + 'white' + ';font-size:40px;">Hello!</span><br /><br /><span style="font-size:15px;"><strong>This is how it works:</strong><br /><br />1. Drag a ball.<br />2.&nbsp;Click&nbsp;on&nbsp;the&nbsp;background.<br />3. Shake your browser.<br />4. Double click.<br />5. Play!</span>';
+	text.style.color = 'white';
 	text.style.position = 'absolute';
 	text.style.left = '0px';
 	text.style.top = '0px';
@@ -200,58 +185,73 @@ function createInstructions() {
 	element.appendChild(text);
 
 	text.style.left = ((250 - text.clientWidth) / 2) +'px';
-	text.style.top = ((250 - text.clientHeight) / 2) +'px';	
-
-	var b2body = new b2BodyDef();
-
-	var circle = new b2CircleDef();
-	circle.radius = size / 2;
-	circle.density = 1;
-	circle.friction = 0.3;
-	circle.restitution = 0.3;
-	b2body.AddShape(circle);
-	b2body.userData = {element: element};
-
-	b2body.position.Set( Math.random() * stage[2], Math.random() * 200 + 200 );
-	b2body.linearVelocity.Set( Math.random() * 400 - 200, Math.random() * 400 - 200 );
-	bodies.push( world.CreateBody(b2body) );	
+	text.style.top = ((250 - text.clientHeight) / 2) +'px';		
 }
 
-function createBall( x, y ) {
+function stringToColor(s) {
+	var colors = ['brown','burlywood','cadetblue','chocolate','cyan','darkcyan','darkorange','darksalmon','goldenrod','greenyellow','hotpink','lightpink','lightskyblue','orangered','orange','pink','red','skyblue','yellow'];
+	var hash = hashStr(s);
+	var index = hash % colors.length;
+	return colors[index];
+}
+function hashStr(str) {
+	var hash = 0;
+	for (var i = 0; i < str.length; i++) {
+		var charCode = str.charCodeAt(i);
+		hash += charCode;
+	}
+	return hash;
+}
+
+function createBall(text, size, x, y) {
 
 	var x = x || Math.random() * stage[2];
 	var y = y || Math.random() * 200 + 200;
+	
+	var strokeWidth = 3;
+	
+	var div = document.createElement( 'div' );
+	div.width = size + strokeWidth*2;
+	div.height = size + strokeWidth*2;	
+	div.style.position = 'absolute';
+	div.style.left = -2000 + 'px';
+	div.style.top = -2000 + 'px';
+	div.style.cursor = "default";
+	
+	bgcanvas.appendChild(div);
+	elements.push(div);
+	
+	var canvas = document.createElement("canvas");
+	canvas.width = div.width;
+	canvas.height = div.height;
+	canvas.style.position = 'relative';
 
-	var size = (Math.random() * 100 >> 0) + 20;
-
-	var element = document.createElement("canvas");
-	element.width = size;
-	element.height = size;
-	element.style.position = 'absolute';
-	element.style.left = -200 + 'px';
-	element.style.top = -200 + 'px';
-	element.style.WebkitTransform = 'translateZ(0)';
-	element.style.MozTransform = 'translateZ(0)';
-	element.style.OTransform = 'translateZ(0)';
-	element.style.msTransform = 'translateZ(0)';
-	element.style.transform = 'translateZ(0)';
-
-	var graphics = element.getContext("2d");
-
-	var num_circles = Math.random() * 10 >> 0;
-
-	for (var i = size; i > 0; i-= (size/num_circles)) {
-
-		graphics.fillStyle = theme[ (Math.random() * 4 >> 0) + 1];
-		graphics.beginPath();
-		graphics.arc(size * .5, size * .5, i * .5, 0, PI2, true); 
-		graphics.closePath();
-		graphics.fill();
+	with (canvas.getContext("2d")){
+		translate(strokeWidth, strokeWidth);
+		
+		beginPath();
+	    arc(size * .5, size * .5, size * .5, 0, PI2, true);
+	    closePath();
+	    
+	    save();
+	    fillStyle = stringToColor(text);
+	    fill();
+	    restore();
+	    
+	    lineWidth = 3;
+	    strokeStyle = '#003300';
+	    stroke();
+	    
+	    save();
+	    translate(size/2, size/2);
+	    rotate(Math.PI / 4);
+	    textAlign = "center";
+	    font = (size*0.9/text.length)+'pt Arial';
+	    fillText(text, 0,0);
+	    restore();
 	}
-
-	canvas.appendChild(element);
-
-	elements.push( element );
+	
+	div.appendChild(canvas);
 
 	var b2body = new b2BodyDef();
 
@@ -261,12 +261,15 @@ function createBall( x, y ) {
 	circle.friction = 0.3;
 	circle.restitution = 0.3;
 	b2body.AddShape(circle);
-	b2body.userData = {element: element};
+	b2body.userData = { element: div };
 
 	b2body.position.Set( x, y );
 	b2body.linearVelocity.Set( Math.random() * 400 - 200, Math.random() * 400 - 200 );
 	bodies.push( world.CreateBody(b2body) );
+	
+	return div;
 }
+
 
 function loop() {
 
@@ -290,14 +293,12 @@ function loop() {
 		element.style.left = (body.m_position0.x - (element.width >> 1)) + 'px';
 		element.style.top = (body.m_position0.y - (element.height >> 1)) + 'px';
 
-		if (element.tagName == 'DIV') {
-			var style = 'rotate(' + (body.m_rotation0 * 57.2957795) + 'deg) translateZ(0)';
-			text.style.WebkitTransform = style;
-			text.style.MozTransform = style;
-			text.style.OTransform = style;
-			text.style.msTransform = style;
-			text.style.transform = style;
-		}
+		var style = 'rotate(' + (body.m_rotation0 * 57.2957795) + 'deg) translateZ(0)';
+		element.style.WebkitTransform = style;
+		element.style.MozTransform = style;
+		element.style.OTransform = style;
+		element.style.msTransform = style;
+		element.style.transform = style;
 	}
 }
 
@@ -405,9 +406,14 @@ function setWalls() {
 	walls[1] = createBox(world, stage[2] / 2, stage[3] + wall_thickness, stage[2], wall_thickness);
 	walls[2] = createBox(world, - wall_thickness, stage[3] / 2, wall_thickness, stage[3]);
 	walls[3] = createBox(world, stage[2] + wall_thickness, stage[3] / 2, wall_thickness, stage[3]);
-	walls[4] = createBox(world, stage[2] / 2, 5, $header.width() / 2, $header.offset().top + $header.height());
+	walls[4] = createBox(world, stage[2] / 2, 0, $header.width() / 2, $header.height());
 
 	wallsSetted = true;
+}
+
+function changeGravity(x, y){
+	gravity = {x:x, y:y};
+	setWalls();
 }
 
 // BROWSER DIMENSIONS
