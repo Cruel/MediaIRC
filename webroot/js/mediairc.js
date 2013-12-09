@@ -137,7 +137,11 @@ $(function(){
 					fetchBalls();
 			},
 			'json'
-		);
+		).fail(function(data){
+			console.log(data);
+			$content.append(makeAlert('danger', 'Failed to create. Please try again.'));
+			$btn.button('reset');
+		});
 		return false;
 	});
 
