@@ -12,20 +12,26 @@ class YoutubeLog extends MediaLogBase {
 		parent::__construct($url);
 		if ($url){
 			preg_match(self::$url_regex, $url, $matches);
-			$video_info = file_get_contents("http://youtube.com/get_video_info?video_id=".$matches[1]);
-			parse_str($video_info, $ytdata);
-	
-			$this->video_id = $matches[1];
-			$this->title = $ytdata['title'];
-			$this->allow_embed = $ytdata['allow_embed'];
-			$this->view_count = $ytdata['view_count'];
-			$this->length = $ytdata['length_seconds'];
-			$this->image = $ytdata['iurl'];
+			
+			$google = new Google_Client();
+			$google->setDeveloperKey(Configure::read('Google.APIKEY'));
+			$youtube = new Google_Service_YouTube($google);
+			$resp = $youtube->videos->listVideos('snippet,statistics,status,contentDetails', array(
+				'id' => $matches[1],
+			));
+			$video = $resp->items[0];
+
+			$this->video_id = $video->id;
+			$this->title = $video->getSnippet()->title;
+			$this->embeddable = $video->getStatus()->embeddable;
+			$this->view_count = $video->getStatistics()->viewCount;
+			$this->duration = $video->getContentDetails()->duration;
+			$this->image = $video->getSnippet()->getThumbnails()->medium['url'];
 		}
 	}
 	
 	public function getHtml(){
-		return "<h1>".$this->title."</h1>";
+		return "<h3>".$this->title."</h3>".'<img src="'.$this->getImageFilename().'"/>';
 	}
 	
 }
