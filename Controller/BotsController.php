@@ -1,6 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('PingIRC', 'Lib');
+App::uses('MediaLog', 'MediaLog');
 /**
  * Bots Controller
  *
