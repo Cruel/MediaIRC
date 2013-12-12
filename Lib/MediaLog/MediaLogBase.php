@@ -6,6 +6,7 @@ abstract class MediaLogBase {
 	protected $Link;
 	
 	protected $url,
+	          $model = null,
 	          $image = null,
 	          $data = array();
 
@@ -18,7 +19,8 @@ abstract class MediaLogBase {
 	public static function loadModel($model){
 		$classname = get_called_class();
 		$class = new $classname();
-		$class->data = json_decode($model['Link']['data'], true);
+		$class->model = $model;
+		$class->data = json_decode($model['data'], true);
 		return $class;
 	}
 	
@@ -38,12 +40,23 @@ abstract class MediaLogBase {
 		return true;
 	}
 	
-	public function save($bot_id = null, $context = null){
+	public function getImageFilename($size='thumb') {
+		if ($size != '')
+			$size .= '_';
+		$filename = "files/link/image/{$this->model['id']}/$size{$this->model['image']}";
+		if (file_exists(WWW_ROOT.$filename))
+			return '/'.$filename;
+		else
+			return "/img/{$size}404.jpg";
+	}
+	
+	public function save($bot_id, $author, $context){
 		$record = array(
 				'Link' => array(
 						'bot_id'  => $bot_id,
 						'url'     => $this->url,
 						'image'   => $this->image,
+						'author'   => $author,
 						'type'    => get_called_class(),
 						'data'    => json_encode($this->data),
 						'context' => $context,
