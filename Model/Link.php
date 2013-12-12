@@ -13,6 +13,17 @@ class Link extends AppModel {
  * @var string
  */
 	public $displayField = 'url';
+	
+	public $actsAs = array(
+		'Upload.Upload' => array(
+			'image' => array(
+				'fields' => array('type' => null),
+				'thumbnailSizes' => array(
+					'thumb' => '300l'
+				)
+			)
+		)
+	);
 
 /**
  * Validation rules
@@ -39,6 +50,16 @@ class Link extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+		),
+		'author' => array(
+				'notempty' => array(
+						'rule' => array('notempty'),
+						//'message' => 'Your custom message here',
+						//'allowEmpty' => false,
+						//'required' => false,
+						//'last' => false, // Stop validation after this rule
+						//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				),
 		),
 		'type' => array(
 			'notempty' => array(
