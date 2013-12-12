@@ -376,3 +376,5 @@ Cache::config('kickcounter', array(
 	'serialize' => True,
 	'duration' => '+20 seconds'
 ));
+
+Configure::write('Google.APIKEY', '');

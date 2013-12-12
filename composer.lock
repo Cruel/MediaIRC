@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d7cb452e0e9ed203d8297d9774862de6",
+    "hash": "bfde9681743681091707f6c9a5b39290",
     "packages": [
         {
             "name": "evenement/evenement",
@@ -49,6 +49,43 @@
                 "event-dispatcher"
             ],
             "time": "2012-12-29 17:04:52"
+        },
+        {
+            "name": "google/apiclient",
+            "version": "v1.0.0-alpha",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/google/google-api-php-client.git",
+                "reference": "889aa1e32d8d4ca5c747154aef5d9e8649ff1d0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/889aa1e32d8d4ca5c747154aef5d9e8649ff1d0a",
+                "reference": "889aa1e32d8d4ca5c747154aef5d9e8649ff1d0a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Google": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "src/"
+            ],
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Client library for Google APIs",
+            "homepage": "http://developers.google.com/api-client-library/php",
+            "keywords": [
+                "google"
+            ],
+            "time": "2013-11-13 16:18:16"
         },
         {
             "name": "monolog/monolog",
@@ -540,6 +577,167 @@
             "time": "2013-12-07 19:47:46"
         },
         {
+            "name": "josegonzalez/cakephp-upload",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/josegonzalez/cakephp-upload.git",
+                "reference": "8d4e5451e7d204c6d8bd8f6beee89ec0a4ca2443"
+            },
+            "require": {
+                "composer/installers": "*"
+            },
+            "type": "cakephp-plugin",
+            "extra": {
+                "installer-name": "Upload"
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jose Diaz-Gonzalez",
+                    "email": "email@josediazgonzalez.com",
+                    "homepage": "http://josediazgonzalez.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "sdoney",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/sdoney"
+                },
+                {
+                    "name": "Giuliano B",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/giulianob"
+                },
+                {
+                    "name": "Justin Slamka",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/slamkajs"
+                },
+                {
+                    "name": "Nathan Tyler",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/tylerdigital"
+                },
+                {
+                    "name": "Joshua Paling",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/joshuapaling"
+                },
+                {
+                    "name": "Mirko Chialastri",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/hiryu85"
+                },
+                {
+                    "name": "Benjamin Allison",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/benjaminallison"
+                },
+                {
+                    "name": "Ariel Patschiki",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/arielpts"
+                },
+                {
+                    "name": "lucfranken",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/lucfranken"
+                },
+                {
+                    "name": "cpierce",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/cpierce"
+                },
+                {
+                    "name": "Barry Chapman",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/barrychapman"
+                },
+                {
+                    "name": "Thomas Edvalson",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/Cruel"
+                },
+                {
+                    "name": "Alejandro Ibarra",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/ajibarra"
+                },
+                {
+                    "name": "simkimsia",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/simkimsia"
+                },
+                {
+                    "name": "Callum Macdonald",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/chmac"
+                },
+                {
+                    "name": "David Kullmann",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/dkullmann"
+                },
+                {
+                    "name": "Juan Basso",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/jrbasso"
+                },
+                {
+                    "name": "Marc Würth",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/ravage84"
+                },
+                {
+                    "name": "Cauan Cabral",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/CauanCabral"
+                },
+                {
+                    "name": "Bryan Crowe",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/bcrowe"
+                },
+                {
+                    "name": "Simon Brown",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/Simes"
+                },
+                {
+                    "name": "wilsolutions",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/wilsolutions"
+                },
+                {
+                    "name": "Graham Watson",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/PhantomWatson"
+                },
+                {
+                    "name": "ceallred",
+                    "role": "Contributor",
+                    "homepage": "https://github.com/ceallred"
+                }
+            ],
+            "description": "CakePHP plugin to handle file uploading sans ridiculous automagic",
+            "homepage": "http://github.com/josegonzalez/cakephp-upload",
+            "keywords": [
+                "behavior",
+                "cakephp",
+                "files",
+                "upload"
+            ],
+            "support": {
+                "email": "cakephp+upload@josediazgonzalez.com",
+                "issues": "https://github.com/josegonzalez/cakephp-upload/issues",
+                "source": "https://github.com/josegonzalez/cakephp-upload"
+            },
+            "time": "2013-10-29 21:31:46"
+        },
+        {
             "name": "phpunit/php-code-coverage",
             "version": "1.2.x-dev",
             "source": {
@@ -967,9 +1165,9 @@
 
     ],
     "minimum-stability": "dev",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "josegonzalez/cakephp-upload": 20
+    },
     "platform": {
         "php": ">=5.4.0"
     },

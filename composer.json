@@ -17,15 +17,21 @@
         {
             "type": "pear",
             "url": "http://pear.cakephp.org"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/josegonzalez/cakephp-upload.git"
         }
     ],
     "require": {
         "php": ">=5.4.0",
         "pear-cakephp/cakephp": ">=2.3.4",
-        "phergie/phergie-irc-client-react": "1.0.0"
+        "phergie/phergie-irc-client-react": "1.0.0",
+        "google/apiclient": "1.0.*"
     },
     "require-dev": {
         "cakephp/debug_kit": "2.2.*",
+        "josegonzalez/cakephp-upload": "dev-master",
         "phpunit/phpunit": "3.7.*"
     },
     "config": {
