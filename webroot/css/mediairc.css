@@ -12,14 +12,13 @@ html {
   padding: 0 0 60px;
 }
 
-html {overflow:hidden;}
+htmlZZZ {overflow:hidden;}
 
-#wrapZZZ {
-  height: 100%;
-  /* Negative indent footer by its height */
-  margins: 0 auto -60px;
-  /* Pad bottom by footer height */
-  paddings: 0 0 70px;
+img {pointer-events: none;}
+ul {list-style-type: none;}
+
+#wrap {
+	position: relative;
 }
 
 /* Set the fixed height of the footer here */
@@ -47,6 +46,7 @@ html {overflow:hidden;}
 	margin-left: -250px;
 	background: rgba(255,255,255,0.9);
 	border-radius: 5px;
+	z-index: 9;
 }
 #header a{
 	text-decoration: none;
@@ -55,18 +55,18 @@ html {overflow:hidden;}
 #content {
 	background: rgba(255,255,255,0.8);
 	border-radius: 5px;
-	padding: 10px;
+	padding: 0 10px;
 	width: 500px;
-	margin: 100px auto 10px auto;
+	margin: 90px auto 10px auto;
 }
 
 #canvas {
 	position: absolute;
-	
+	overflow: hidden;
 	left: 0;
 	top: 0;
 	bottom: 60px;
-
+	right: 0;
 	z-index: -1;
 }
 
@@ -77,6 +77,55 @@ html {overflow:hidden;}
 .home .btn {
 	width: 150px;
 	margin: 3px;
+}
+
+#gallery {
+	position: absolute;
+	left: 0;
+	width: 100%;
+}
+
+#gallery > ul > li {
+	text-align: center;
+	width: 400px;
+	margin-bottom: 30px;
+	background: rgba(255,255,255,0.6);
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#gallery li img{
+	opacity: 0.7;
+	transition: opacity 0.4s;
+}
+#gallery li:hover img{
+	opacity: 0.95;
+}
+.item-YoutubeLog > div {
+	position: relative;
+}
+.item-YoutubeLog .glyphicon {
+	position: absolute;
+	left: 50%;
+	font-size: 90px;
+	margin-left: -45px;
+	top: 40px;
+	color: #000;
+	opacity: 0.6;
+	text-shadow: 0 0 6px #fff;
+	transition: all 0.2s;
+}
+#gallery li:hover .glyphicon {
+	opacity: 0.8;
+	top: 35px;
+	font-size: 98px;
+	margin-left: -49px;
+}
+#gallery .item-foot {
+	padding: 4px;
+}
+#gallery .item-foot span {
+	border-bottom: 1px dotted black;
 }
 
 

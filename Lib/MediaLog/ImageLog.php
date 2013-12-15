@@ -13,7 +13,7 @@ class ImageLog extends MediaLogBase {
 	
 	protected function __construct($url = null){
 		parent::__construct($url);
-		$this->image = '';
+		$this->image = $url;
 	}
 	
 	public static function loadUrl($url, $headers){
@@ -21,7 +21,7 @@ class ImageLog extends MediaLogBase {
 	}
 	
 	public function getHtml(){
-		return '<img src="" />';
+		return '<img src="'.$this->getImageFilename().'" />';
 	}
 	
 }

@@ -63,6 +63,8 @@ function loadHistoryJS(){
 				$content.stop(true,false);
 				$content.html($dataContent.html()).css('opacity',0).ajaxify().animate({opacity:1},500);
 				
+				dynamic_init();
+				
 				// Update the title
 				document.title = $(data).filter('title').text();
 				try {
@@ -95,10 +97,22 @@ function makeAlert(style, message){
 		.ajaxify();
 }
 
+// Called at beginning of all (even ajax) page loads
+function dynamic_init(){
+	// Init tooltips
+	$("*[data-toggle='tooltip']").tooltip({
+		html: true
+	});
+	
+	$('#gallery ul').masonry({
+		columnWidth: 400,
+		itemSelector: '.item',
+		gutter: 30
+	});
+}
+
 $(function(){
 	setNavActive();
-	// Init tooltips
-	$("*[data-toggle='tooltip']").tooltip();
 	
 	loadHistoryJS();
 	
@@ -144,5 +158,7 @@ $(function(){
 		});
 		return false;
 	});
+	
+	dynamic_init();
 
 });

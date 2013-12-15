@@ -31,7 +31,7 @@ class YoutubeLog extends MediaLogBase {
 	}
 	
 	public function getHtml(){
-		return "<h3>".$this->title."</h3>".'<img src="'.$this->getImageFilename().'"/>';
+		return "<h3>".$this->title."</h3>".'<div><img src="'.$this->getImageFilename().'"/><span class="glyphicon glyphicon-play-circle"></span></div>';
 	}
 	
 }
