@@ -15,6 +15,7 @@ class BotShell extends AppShell {
 	//               'context' => array(), // Chat logging
 	//               'pending' => array(
 	//                   'lines' => 0,
+	//                   'author' => 'nick',
 	//                   'log' => MediaLog obj
 	//               )
 	//       ),
@@ -39,8 +40,9 @@ class BotShell extends AppShell {
 			if ($pending['lines'] > 1){
 				$chan_array['pending'][$key]['lines']--;
 			} else {
+				$author = $chan_array['pending'][$key]['author'];
 				$context = implode("\n", $chan_array['context']);
-				$pending['log']->save($chan_array['id'], $context);
+				$pending['log']->save($chan_array['id'], $author, $context);
 				unset($chan_array['pending'][$key]);
 			}
 		}
@@ -48,8 +50,8 @@ class BotShell extends AppShell {
 	
 	// Used to resolve nickname conflicts
 	private function incrementNick($nick){
-		// TODO: proper incrementing
-		return $nick."1";
+		preg_match("/(.*?)(\d+)$/", $nick, $matches);
+		return ($matches) ? $matches[1].($matches[2]+1) : $nick."1";
 	}
 	
 	public function start() {
@@ -78,7 +80,7 @@ class BotShell extends AppShell {
 						}
 					} else {
 						$connection = new \Phergie\Irc\Connection();
-						$connection->setServerHostname($host);
+						$connection->setServerHostname($bot['Bot']['host']);
 						$connection->setServerPort($bot['Bot']['port']);
 						$connection->setNickname('MediaIRC');
 						$connection->setUsername('MediaIRC');
@@ -138,6 +140,7 @@ class BotShell extends AppShell {
 								// Save $log to pending array to be saved later when context text is recorded
 								$this->servers[$server]['channels'][$receiver]['pending'][] = array(
 										'lines' => $this->context_lines,
+										'author' => $message['nick'],
 										'log' => $log
 									);
 								$bot_id = $this->servers[$server]['channels'][$receiver]['id'];
