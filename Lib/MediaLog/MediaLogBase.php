@@ -5,8 +5,9 @@ abstract class MediaLogBase {
 	// Variable to hold the Link model instance
 	protected $Link;
 	
+	public $model = null;
+	
 	protected $url,
-	          $model = null,
 	          $image = null,
 	          $data = array();
 
