@@ -31,9 +31,10 @@
 			<?php echo $this->fetch('content'); ?>
 			<div class="clearfix"></div>
 		</div>
-		<div id="canvas"></div>
 	</div> <!-- /container -->
 </div> <!-- /wrap -->
+
+<div id="canvas"></div>
 
 <div id="footer">
 	<div class="container text-center">
@@ -43,6 +44,7 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <?php echo $this->Html->script('jquery.history'); ?>
+<?php echo $this->Html->script('masonry.pkgd.min'); ?>
 <?php echo $this->Html->script('bootstrap.min'); ?>
 <?php echo $this->Html->script('mediairc'); ?>
 <?php echo $this->Html->script('protoclass'); ?>
