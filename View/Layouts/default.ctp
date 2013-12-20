@@ -10,6 +10,7 @@
 
     echo $this->Html->css('bootstrap.min');
     echo $this->Html->css('bootstrap-theme.min');
+    echo $this->Html->css('colorbox');
     echo $this->Html->css('mediairc');
 
     echo $this->fetch('meta');
@@ -45,6 +46,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <?php echo $this->Html->script('jquery.history'); ?>
 <?php echo $this->Html->script('masonry.pkgd.min'); ?>
+<?php echo $this->Html->script('jquery.colorbox-min'); ?>
 <?php echo $this->Html->script('bootstrap.min'); ?>
 <?php echo $this->Html->script('mediairc'); ?>
 <?php echo $this->Html->script('protoclass'); ?>

@@ -63,7 +63,7 @@ function loadHistoryJS(){
 				$content.stop(true,false);
 				$content.html($dataContent.html()).css('opacity',0).ajaxify().animate({opacity:1},500);
 				
-				dynamic_init();
+				setTimeout(function(){dynamic_init();}, 100);
 				
 				// Update the title
 				document.title = $(data).filter('title').text();
@@ -105,7 +105,7 @@ function dynamic_init(){
 	});
 	
 	$('#gallery ul').masonry({
-		columnWidth: 400,
+		columnWidth: 300,
 		itemSelector: '.item',
 		gutter: 30
 	});
@@ -157,6 +157,16 @@ $(function(){
 			$btn.button('reset');
 		});
 		return false;
+	});
+	
+	$(document).on("click", "#gallery .item", function(){
+		var $this = $(this);
+		if ($this.hasClass('YoutubeLog')){
+			$.colorbox({href:$this.data('url')+'?autoplay=1', iframe:true, innerWidth:640, innerHeight:390});
+		} else {
+			$.colorbox({href:$this.data('url')});
+		}
+
 	});
 	
 	dynamic_init();

@@ -17,7 +17,7 @@ foreach ($bot['Link'] as $link) {
 	echo $this->Html->tag('li',
 		$log->getHtml() . $foot,
 		array(
-			'class' => 'item item-'.$link['type'],
+			'class' => 'item '.$link['type'],
 			'data-url' => $link['url']
 		)
 	);

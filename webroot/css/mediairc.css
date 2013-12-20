@@ -87,7 +87,7 @@ ul {list-style-type: none;}
 
 #gallery > ul > li {
 	text-align: center;
-	width: 400px;
+	width: 300px;
 	margin-bottom: 30px;
 	background: rgba(255,255,255,0.6);
 	border-radius: 5px;
@@ -97,14 +97,15 @@ ul {list-style-type: none;}
 #gallery li img{
 	opacity: 0.7;
 	transition: opacity 0.4s;
+	max-height: 1000px;
 }
 #gallery li:hover img{
 	opacity: 0.95;
 }
-.item-YoutubeLog > div {
+.YoutubeLog > div {
 	position: relative;
 }
-.item-YoutubeLog .glyphicon {
+.YoutubeLog .glyphicon {
 	position: absolute;
 	left: 50%;
 	font-size: 90px;
@@ -117,9 +118,9 @@ ul {list-style-type: none;}
 }
 #gallery li:hover .glyphicon {
 	opacity: 0.8;
-	top: 35px;
-	font-size: 98px;
-	margin-left: -49px;
+	top: 37px;
+	font-size: 94px;
+	margin-left: -47px;
 }
 #gallery .item-foot {
 	padding: 4px;
