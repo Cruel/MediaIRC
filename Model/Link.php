@@ -19,7 +19,7 @@ class Link extends AppModel {
 			'image' => array(
 				'fields' => array('type' => null),
 				'thumbnailSizes' => array(
-					'thumb' => '300l'
+					'thumb' => '300w'
 				)
 			)
 		)
