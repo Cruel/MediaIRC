@@ -21,6 +21,7 @@ class YoutubeLog extends MediaLogBase {
 			));
 			$video = $resp->items[0];
 
+			$this->url = 'http://www.youtube.com/embed/'.$video->id;
 			$this->video_id = $video->id;
 			$this->title = $video->getSnippet()->title;
 			$this->embeddable = $video->getStatus()->embeddable;
@@ -31,7 +32,7 @@ class YoutubeLog extends MediaLogBase {
 	}
 	
 	public function getHtml(){
-		return "<h3>".$this->title."</h3>".'<div><img src="'.$this->getImageFilename().'"/><span class="glyphicon glyphicon-play-circle"></span></div>';
+		return "<h3>".$this->title."</h3>".'<div><img src="'.$this->getImageFilename('thumb').'"/><span class="glyphicon glyphicon-play-circle"></span></div>';
 	}
 	
 }

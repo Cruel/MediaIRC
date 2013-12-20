@@ -41,8 +41,8 @@ abstract class MediaLogBase {
 		return true;
 	}
 	
-	public function getImageFilename($size='thumb') {
-		if ($size != '')
+	public function getImageFilename($size=null) {
+		if ($size)
 			$size .= '_';
 		$filename = "files/link/image/{$this->model['id']}/$size{$this->model['image']}";
 		if (file_exists(WWW_ROOT.$filename))

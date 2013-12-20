@@ -21,7 +21,7 @@ class ImageLog extends MediaLogBase {
 	}
 	
 	public function getHtml(){
-		return '<img src="'.$this->getImageFilename().'" />';
+		return '<img src="'.$this->getImageFilename('thumb').'" />';
 	}
 	
 }
