@@ -104,10 +104,13 @@ function dynamic_init(){
 		html: true
 	});
 	
-	$('#gallery ul').masonry({
-		columnWidth: 300,
-		itemSelector: '.item',
-		gutter: 30
+	var $gallery = $('#gallery ul');
+	$gallery.imagesLoaded(function(){
+		$gallery.masonry({
+			columnWidth: 300,
+			itemSelector: '.item',
+			gutter: 30
+		});
 	});
 }
 
