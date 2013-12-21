@@ -157,13 +157,13 @@ class BotShell extends AppShell {
 						$cachekey = $connection->getServerHostname() . $chan;
 						if (Cache::read($cachekey, 'kickcounter')){
 							$write->ircJoin($chan);
-							$write->ircPrivmsg($chan, "Fine, you win.");
+							$write->ircPrivmsg($chan, "Screw you guys, I'm going home.");
 							$write->ircPart($chan);
 							$this->Bot->id = $bot_id;
 							$this->Bot->saveField('active', false);
 						} else {
 							$write->ircJoin($chan);
-							$write->ircPrivmsg($chan, $message['nick'].", why do you hate me? :<");
+							$write->ircPrivmsg($chan, $message['nick'].", why do you hate me? :< (kick again to deactivate)");
 							Cache::write($cachekey, true, 'kickcounter');
 						}
 					}
