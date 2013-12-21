@@ -150,7 +150,7 @@ class BotShell extends AppShell {
 					}
 					break;
 				case "KICK":
-					if ($message['params']['user'] == strtolower($connection->getNickname())){
+					if (strcasecmp($message['params']['user'], $connection->getNickname()) == 0) {
 						// Deactivate bot after being kicked twice
 						$chan = $message['params']['channel'];
 						$bot_id = $this->servers[$server]['channels'][$chan]['id'];
