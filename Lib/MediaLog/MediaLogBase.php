@@ -52,12 +52,26 @@ abstract class MediaLogBase {
 	}
 	
 	public function save($bot_id, $author, $context){
+		// Exclude all url from mediairc.com
+		if (stripos($this->url, 'mediairc.com') !== false)
+			return;
+		// Exclude all urls already posted recently in this chan
+		$link = $this->Link->find('first', array(
+			'conditions' => array(
+				'Link.bot_id' => $bot_id,
+				'Link.url' => $this->url,
+				'Link.date >' => date('Y-m-d H:i:s', strtotime("-1 day"))
+			)
+		));
+		if ($link)
+			return;
+		
 		$record = array(
 				'Link' => array(
 						'bot_id'  => $bot_id,
 						'url'     => $this->url,
 						'image'   => $this->image,
-						'author'   => $author,
+						'author'  => $author,
 						'type'    => get_called_class(),
 						'data'    => json_encode($this->data),
 						'context' => $context,
