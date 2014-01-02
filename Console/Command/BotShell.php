@@ -33,7 +33,6 @@ class BotShell extends AppShell {
 	
 	private function processContext(&$chan_array, $message){
 		$chan_array['context'][] = $message;
-		var_dump($chan_array['context']);
 		if (count($chan_array['context']) > $this->context_lines * 2 + 1)
 			array_shift($chan_array['context']);
 		foreach ($chan_array['pending'] as $key => $pending){
@@ -60,7 +59,6 @@ class BotShell extends AppShell {
 		$client = new \Phergie\Irc\Client\React\Client();
 		
 		$client->addPeriodicTimer(10, function() use ($client) {
-			$this->out('TIMER!');
 			// Fetch active bots with SQL, loop through to make connect array
 			$bots = $this->Bot->find('all');
 			foreach ($bots as $bot){
